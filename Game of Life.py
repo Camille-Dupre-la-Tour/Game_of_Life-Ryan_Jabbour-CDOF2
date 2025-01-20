@@ -12,24 +12,23 @@ grid = np.random.choice(vals, N * N, p=[0.2, 0.8]).reshape(N, N)
 
 pause = [False]
 
+def count_neighbors(grid, N):
+    neighbors = (
+        np.roll(grid, 1, axis=0) + np.roll(grid, -1, axis=0) +
+        np.roll(grid, 1, axis=1) + np.roll(grid, -1, axis=1) +
+        np.roll(np.roll(grid, 1, axis=0), 1, axis=1) +
+        np.roll(np.roll(grid, 1, axis=0), -1, axis=1) +
+        np.roll(np.roll(grid, -1, axis=0), 1, axis=1) +
+        np.roll(np.roll(grid, -1, axis=0), -1, axis=1)
+    ) // 255
+    return neighbors
+
 def update(frameNum, img, grid, N, pause):
     if pause[0]:
         return img,
-    newGrid = grid.copy()
-    for i in range(N):
-        for j in range(N):
-            total = int((grid[i, (j-1)%N] + grid[i, (j+1)%N] +
-                         grid[(i-1)%N, j] + grid[(i+1)%N, j] +
-                         grid[(i-1)%N, (j-1)%N] + grid[(i-1)%N, (j+1)%N] +
-                         grid[(i+1)%N, (j-1)%N] + grid[(i+1)%N, (j+1)%N]) / 255)
-            if grid[i, j] == ON:
-                if (total < 2) or (total > 3):
-                    newGrid[i, j] = OFF
-                else:
-                    newGrid[i, j] = ON
-            else:
-                if total == 3:
-                    newGrid[i, j] = NEW
+    neighbors = count_neighbors(grid, N)
+    newGrid = np.where((grid == ON) & ((neighbors < 2) | (neighbors > 3)), OFF, grid)
+    newGrid = np.where((grid == OFF) & (neighbors == 3), NEW, newGrid)
     img.set_data(newGrid)
     grid[:] = newGrid[:]
     return img,
