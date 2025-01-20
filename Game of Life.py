@@ -5,6 +5,7 @@ import matplotlib.animation as animation
 N = 100
 ON = 255
 OFF = 0
+NEW = 128
 vals = [ON, OFF]
 
 grid = np.random.choice(vals, N * N, p=[0.2, 0.8]).reshape(N, N)
@@ -24,9 +25,11 @@ def update(frameNum, img, grid, N, pause):
             if grid[i, j] == ON:
                 if (total < 2) or (total > 3):
                     newGrid[i, j] = OFF
+                else:
+                    newGrid[i, j] = ON
             else:
                 if total == 3:
-                    newGrid[i, j] = ON
+                    newGrid[i, j] = NEW
     img.set_data(newGrid)
     grid[:] = newGrid[:]
     return img,
@@ -36,7 +39,7 @@ def toggle_pause(event):
         pause[0] = not pause[0]
 
 fig, ax = plt.subplots()
-img = ax.imshow(grid, interpolation='nearest')
+img = ax.imshow(grid, cmap='viridis', interpolation='nearest')
 fig.canvas.mpl_connect('key_press_event', toggle_pause)
 
 ani = animation.FuncAnimation(fig, update, fargs=(img, grid, N, pause), frames=10, interval=50, save_count=50)
