@@ -1,3 +1,5 @@
+
+```markdown
 # Game of Life
 
 The Game of Life is a cellular automaton devised by mathematician John Horton Conway. It is a zero-player game, meaning its evolution is determined by its initial state, with no further input required.
@@ -29,7 +31,20 @@ cd Game_of_Life-Ryan_Jabbour-CDOF2
 python game_of_life.py
 ```
 
-You should see an animated simulation of Conway's Game of Life in a 2D grid.
+You should see an animated simulation of Conway's Game of Life in a 2D grid, with enhanced features like color-coding and the ability to pause and resume the simulation using the spacebar.
+
+---
+
+## Features
+
+- **Color-Coding for Cell States**: Cells are now visually differentiated based on their state:
+  - Newly born cells are colored distinctively.
+  - Surviving cells are displayed in a different color.
+  - Dying cells are also highlighted for clear identification.
+
+- **Pause and Resume**: The simulation can be paused and resumed by pressing the spacebar during the animation. A "Paused" label will appear when the game is paused.
+
+- **Optimized Neighbor Counting**: The neighbor counting process has been optimized using NumPy operations to improve performance, especially on larger grids. This reduces the computational cost by vectorizing the neighbor calculation.
 
 ---
 
@@ -87,3 +102,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) fi
 
 - Inspired by John Horton Conway's original work.
 - Thanks to the open-source community for libraries and resources.
+```
+
+This is the complete README file, now including the details for the new features like color-coding, pause/resume functionality, and optimized neighbor counting.
